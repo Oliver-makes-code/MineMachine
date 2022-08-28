@@ -13,13 +13,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Machine {
 	static {
 		System.setProperty("polyglot.engine.WarnInterpreterOnly", "false");
 	}
 
-	final ArrayList<ProgramLibrary> libraries = new ArrayList<>();
+	public final HashMap<String, ProgramLibrary> libraries = new HashMap<>();
 	public final int id;
 	Context context;
 	Value bindings;
@@ -40,11 +41,11 @@ public class Machine {
 				.build();
 		bindings = context.getBindings("js");
 		libraries.clear();
-		new IoLibrary(this);
+		addLibrary(new IoLibrary(this.id));
 	}
 
 	public void addLibrary(ProgramLibrary library) {
-		libraries.add(library);
+		libraries.put(library.getCanonicalName(), library);
 		bindings.putMember(library.getCanonicalName(), library);
 	}
 
@@ -54,23 +55,12 @@ public class Machine {
 		return path;
 	}
 
-	public boolean exec(String programName) {
-		try (InputStream stream = new FileInputStream(getPath(programName).toFile())) {
-			Source source = Source.newBuilder("js", new InputStreamReader(stream), programName).build();
-			context.eval(source);
-			return true;
-		} catch (Throwable t) {
-			t.printStackTrace();
-			return false;
-		}
-	}
-	public Value execFile(String programName) {
+	public Value exec(String programName) {
 		try (InputStream stream = new FileInputStream(getPath(programName).toFile())) {
 			Source source = Source.newBuilder("js", new InputStreamReader(stream), programName).build();
 			return context.eval(source);
-		} catch (Throwable t) {
-			t.printStackTrace();
-			return null;
+		} catch (Throwable ignored) {
 		}
+		return null;
 	}
 }

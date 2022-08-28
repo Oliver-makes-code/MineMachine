@@ -11,10 +11,13 @@ import org.graalvm.polyglot.HostAccess;
  * @author Octal
  * */
 public abstract class ProgramLibrary {
-	public final Machine machine;
-	public ProgramLibrary(Machine machine) {
-		this.machine = machine;
-		machine.addLibrary(this);
+	public final int id;
+	public ProgramLibrary(int id) {
+		this.id = id;
+	}
+
+	public Machine createIsolatedMachine() {
+		return new Machine(id);
 	}
 
 	public abstract String getCanonicalName();
