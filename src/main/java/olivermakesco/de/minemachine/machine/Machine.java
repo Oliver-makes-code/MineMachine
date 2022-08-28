@@ -1,18 +1,14 @@
 package olivermakesco.de.minemachine.machine;
 
-import olivermakesco.de.minemachine.Mod;
 import olivermakesco.de.minemachine.api.ProgramLibrary;
-import olivermakesco.de.minemachine.machine.builtin.IoLibrary;
+import olivermakesco.de.minemachine.machine.builtin.DefaultLibrary;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Machine {
@@ -41,7 +37,7 @@ public class Machine {
 				.build();
 		bindings = context.getBindings("js");
 		libraries.clear();
-		addLibrary(new IoLibrary(this.id));
+		addLibrary(new DefaultLibrary(this.id));
 	}
 
 	public void addLibrary(ProgramLibrary library) {

@@ -1,4 +1,4 @@
-io.export({
+program.export({
     "test": () => {
         console.log("owo")
     }
