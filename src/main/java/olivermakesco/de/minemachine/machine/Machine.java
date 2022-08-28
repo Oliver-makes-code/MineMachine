@@ -5,9 +5,10 @@ import olivermakesco.de.minemachine.api.ProgramLibrary;
 import olivermakesco.de.minemachine.machine.builtin.IoLibrary;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
@@ -47,7 +48,6 @@ public class Machine {
 		bindings.putMember(library.getCanonicalName(), library);
 	}
 
-
 	public Path getPath(String pathName) {
 		Path path = defaultPath.resolve(pathName).toAbsolutePath().normalize();
 		if (!(path.toString().startsWith(defaultPath.toString()))) return null;
@@ -55,7 +55,22 @@ public class Machine {
 	}
 
 	public boolean exec(String programName) {
-
-		return false;
+		try (InputStream stream = new FileInputStream(getPath(programName).toFile())) {
+			Source source = Source.newBuilder("js", new InputStreamReader(stream), programName).build();
+			context.eval(source);
+			return true;
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return false;
+		}
+	}
+	public Value execFile(String programName) {
+		try (InputStream stream = new FileInputStream(getPath(programName).toFile())) {
+			Source source = Source.newBuilder("js", new InputStreamReader(stream), programName).build();
+			return context.eval(source);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
 	}
 }

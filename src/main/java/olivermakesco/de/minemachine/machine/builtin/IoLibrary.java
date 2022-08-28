@@ -16,7 +16,7 @@ public class IoLibrary extends ProgramLibrary {
 	}
 
 	@HostAccess.Export
-	public Value load(String fileName) {
-		return null;
+	public Value loadProgram(String fileName) {
+		return machine.execFile(fileName);
 	}
 }
