@@ -20,4 +20,6 @@ public class MachineBlockEntity extends BlockEntity {
 	public MachineBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(TYPE, blockPos, blockState);
 	}
+
+	
 }

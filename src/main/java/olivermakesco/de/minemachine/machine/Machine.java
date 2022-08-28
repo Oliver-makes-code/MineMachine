@@ -21,10 +21,12 @@ public class Machine {
 	Context context;
 	Value bindings;
 	final Path defaultPath;
-
 	public Machine(int id) {
+		this(id, "");
+	}
+	public Machine(int id, String path) {
 		this.id = id;
-		defaultPath = Path.of("computers/"+id).toAbsolutePath().normalize();
+		defaultPath = Path.of(path+"/computers/"+id).toAbsolutePath().normalize();
 		reset();
 	}
 
