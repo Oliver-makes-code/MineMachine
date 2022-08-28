@@ -23,6 +23,7 @@ public class MachineThread extends Thread {
 					}
 					default -> {}
 				}
+				messages.remove(message);
 				if (exit) break;
 			}
 		}
