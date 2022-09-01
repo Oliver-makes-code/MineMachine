@@ -12,3 +12,6 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+include ":mod"
+include ":native"

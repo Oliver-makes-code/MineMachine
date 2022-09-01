@@ -1,8 +1,6 @@
 package olivermakesco.de.minemachine;
 
 import net.minecraft.util.Identifier;
-import olivermakesco.de.minemachine.block.BlockRegistry;
-import olivermakesco.de.minemachine.machine.Machine;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ public class Mod implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		BlockRegistry.register();
 	}
 
 	public static Identifier id(String path) {
